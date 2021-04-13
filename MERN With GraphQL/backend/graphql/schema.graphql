@@ -1,0 +1,55 @@
+type Query {
+    events: [Event!]!
+    user: [User!]!
+    bookings: [Booking!]!
+    login(email: String!, password: String!): AuthData!
+}
+
+type Mutation {
+    createEvent(data: EventInputType): Event!
+    createUser(data: UserInputType): User!
+    createBooking(eventID: ID!): Booking!
+    cancelBooking(bookingID: ID!): Booking!
+}
+
+type Event {
+    id: ID!
+    title: String!
+    description: String!
+    price: Float!
+    date: String!
+    creator: User!
+}
+
+input EventInputType {
+    title: String!
+    description: String!
+    price: Float!
+    date: String!
+}
+
+type User {
+    id: ID!
+    email: String!
+    password: String
+    createdEvents: [Event]
+}
+
+input UserInputType {
+    email: String!
+    password: String!
+}
+
+type Booking {
+    id: ID!
+    event: Event!
+    user: User!
+    createdAt: String!
+    updatedAt: String!
+}
+
+type AuthData {
+    token: String!
+    user: User!
+    tokenExpiration: Int! # tokenExpiration can be 1 which means 1h, 2 for 2h and so on
+}
